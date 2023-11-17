@@ -11,7 +11,12 @@
   --color-white: #fff;
   --color-black: #140a00;
   --color-grey-dark: #909090;
-  --color-grey-lightr: #e0e0e0;
+  --color-grey-light: #e0e0e0;
+  --color-pink: #f9c1c1;
+  --color-pink-light: #f2d9d9;
+  --color-blue: #b5e8ff;
+  --color-blue-light: #e7f3fe;
+  --color-lime: #bcffb5;
 
   /* Size */
   --spacing: 12px;
