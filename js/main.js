@@ -1,138 +1,221 @@
-let sudokuArr = [];
+const tbody = document.querySelector("tbody");
+const rows = tbody.rows;
+const mockData = [];
+const sudokuBoard = [];
+
+// Get all number of rows, columns, boxs from a table
+const getNumbers = () => {
+  for (let i = 0; i < rows.length; i++) {
+    let numList = [];
+    for (let j = 0; j < rows[i].children.length; j++) {
+      numList.push(rows[i].children[j].innerText);
+    }
+    sudokuBoard.push(numList);
+  }
+};
+
+// Validate numbers
+// Are there duplicates in each row, column, 3x3 box? return true / false
+// If everything passes, return true at the end
+const validateSudoku = (sudokuBoard) => {
+  for (let i = 0; i < 9; i++) {
+    let rowSet = new Set();
+    let colSet = new Set();
+    let boxSet = new Set();
+
+    for (let j = 0; j < 9; j++) {
+      let rowNum = sudokuBoard[i][j];
+      let colNum = sudokuBoard[j][i];
+      let boxNum =
+        sudokuBoard[3 * Math.floor(i / 3) + Math.floor(j / 3)][
+          3 * (i % 3) + (j % 3)
+        ];
+
+      if (rowNum != "") {
+        if (rowSet.has(rowNum)) return false;
+        rowSet.add(rowNum);
+      }
+      if (colNum != "") {
+        if (colSet.has(colNum)) return false;
+        colSet.add(colNum);
+      }
+      if (boxNum != "") {
+        if (boxSet.has(boxNum)) return false;
+        boxSet.add(boxNum);
+      }
+    }
+  }
+  return true;
+};
 
 // to generate table
-const tablePoper = () =>{
-	for (let x = 0; x < 9; ++x) {
-		let tr = document.createElement("tr");
-		for (let y = 0; y < 9; ++y) {
-			let td = document.createElement("td");
-			tr.append(td);
-		}	
-		document.querySelector("tbody").append(tr);
-	}
-	setDefaultData();
-}
-
+const tablePoper = () => {
+  for (let x = 0; x < 9; ++x) {
+    let tr = document.createElement("tr");
+    for (let y = 0; y < 9; ++y) {
+      let td = document.createElement("td");
+      tr.append(td);
+    }
+    tbody.append(tr);
+  }
+  setDefaultData();
+};
 
 // to set Default Data
-const setDefaultData = () =>{
-	let dTr;
-	let tdIdx;
-	const secondBox = 3;
-	const thirdBox = 6;
-	
+const setDefaultData = () => {
+  let dTr;
+  let tdIdx;
+  const secondBox = 3;
+  const thirdBox = 6;
 
-	for (let i = 0; i < sudokuArr.length; i++) {
-		for (let j = 0; j < sudokuArr[i].length; j++) {
-			//console.log("i : ", i, ", j :", j, "-- ", sudokuArr[i][j]);
+  for (let i = 0; i < mockData.length; i++) {
+    for (let j = 0; j < mockData[i].length; j++) {
+      switch (i) {
+        case 0:
+          if (j == 0 || j == 3 || j == 6) {
+            tdIdx = parseInt(mockData[i][j]) - 1;
+          } else if (j == 1 || j == 4 || j == 7) {
+            dTr = document.querySelectorAll("tr")[parseInt(mockData[i][j]) - 1];
+          } else {
+            dTr.children[tdIdx].innerText = mockData[i][j];
+          }
+          break;
 
-			switch (i) {
-				case 0 :
-					if(j == 0 || j == 3 || j == 6){
-						tdIdx = parseInt(sudokuArr[i][j]) -1;
-					}else if(j == 1 || j == 4 || j == 7){ 
-						dTr = document.querySelectorAll("tr")[parseInt(sudokuArr[i][j]) -1];
-					}else{
-						dTr.children[tdIdx].innerText = sudokuArr[i][j];
-					}
-				break;
+        case 1:
+          if (j == 0 || j == 3 || j == 6) {
+            tdIdx = parseInt(mockData[i][j]) + secondBox - 1;
+          } else if (j == 1 || j == 4 || j == 7) {
+            dTr = document.querySelectorAll("tr")[parseInt(mockData[i][j]) - 1];
+          } else {
+            dTr.children[tdIdx].innerText = mockData[i][j];
+          }
+          break;
 
-				case 1 :
-					if(j == 0 || j == 3 || j == 6){
-						tdIdx = parseInt(sudokuArr[i][j]) +secondBox -1;
-					}else if(j == 1 || j == 4 || j == 7){ 
-						dTr = document.querySelectorAll("tr")[parseInt(sudokuArr[i][j]) -1];
-					}else{
-						dTr.children[tdIdx].innerText = sudokuArr[i][j];
-					}
-				break;
+        case 2:
+          if (j == 0 || j == 3 || j == 6) {
+            tdIdx = parseInt(mockData[i][j]) + thirdBox - 1;
+          } else if (j == 1 || j == 4 || j == 7) {
+            dTr = document.querySelectorAll("tr")[parseInt(mockData[i][j]) - 1];
+          } else {
+            dTr.children[tdIdx].innerText = mockData[i][j];
+          }
+          break;
 
-				case 2 :
-					if(j == 0 || j == 3 || j == 6){
-						tdIdx = parseInt(sudokuArr[i][j]) +thirdBox -1;
-					}else if(j == 1 || j == 4 || j == 7){ 
-						dTr = document.querySelectorAll("tr")[parseInt(sudokuArr[i][j]) -1];
-					}else{
-						dTr.children[tdIdx].innerText = sudokuArr[i][j];
-					}
-				break;
-				
-				case 3 :
-					if(j == 0 || j == 3 || j == 6){
-						tdIdx = parseInt(sudokuArr[i][j]) -1;
-					}else if(j == 1 || j == 4 || j == 7){ 
-						dTr = document.querySelectorAll("tr")[parseInt(sudokuArr[i][j]) +secondBox -1];
-					}else{
-						dTr.children[tdIdx].innerText = sudokuArr[i][j];
-					}
-				break;
-				
-				case 4 :
-					if(j == 0 || j == 3 || j == 6){
-						tdIdx = parseInt(sudokuArr[i][j]) +secondBox -1;
-					}else if(j == 1 || j == 4 || j == 7){ 
-						dTr = document.querySelectorAll("tr")[parseInt(sudokuArr[i][j]) +secondBox -1]
-					}else{
-						dTr.children[tdIdx].innerText = sudokuArr[i][j];
-					}
-				break;
+        case 3:
+          if (j == 0 || j == 3 || j == 6) {
+            tdIdx = parseInt(mockData[i][j]) - 1;
+          } else if (j == 1 || j == 4 || j == 7) {
+            dTr =
+              document.querySelectorAll("tr")[
+                parseInt(mockData[i][j]) + secondBox - 1
+              ];
+          } else {
+            dTr.children[tdIdx].innerText = mockData[i][j];
+          }
+          break;
 
-				case 5 :
-					if(j == 0 || j == 3 || j == 6){
-						tdIdx = parseInt(sudokuArr[i][j]) +thirdBox -1;
-					}else if(j == 1 || j == 4 || j == 7){ 
-						dTr = document.querySelectorAll("tr")[parseInt(sudokuArr[i][j]) +secondBox -1]
-					}else{
-						dTr.children[tdIdx].innerText = sudokuArr[i][j];
-					}
-				break;
+        case 4:
+          if (j == 0 || j == 3 || j == 6) {
+            tdIdx = parseInt(mockData[i][j]) + secondBox - 1;
+          } else if (j == 1 || j == 4 || j == 7) {
+            dTr =
+              document.querySelectorAll("tr")[
+                parseInt(mockData[i][j]) + secondBox - 1
+              ];
+          } else {
+            dTr.children[tdIdx].innerText = mockData[i][j];
+          }
+          break;
 
-				case 6 :
-					if(j == 0 || j == 3 || j == 6){
-						tdIdx = parseInt(sudokuArr[i][j]) -1;
-					}else if(j == 1 || j == 4 || j == 7){ 
-						dTr = document.querySelectorAll("tr")[parseInt(sudokuArr[i][j]) +thirdBox -1]
-					}else{
-						dTr.children[tdIdx].innerText = sudokuArr[i][j];
-					}
-				break;
-				
-				case 7 :
-					if(j == 0 || j == 3 || j == 6){
-						tdIdx = parseInt(sudokuArr[i][j]) +secondBox -1;
-					}else if(j == 1 || j == 4 || j == 7){ 
-						dTr = document.querySelectorAll("tr")[parseInt(sudokuArr[i][j]) +thirdBox -1]
-					}else{
-						dTr.children[tdIdx].innerText = sudokuArr[i][j];
-					}
-				break;
-				
-				case 8 :
-					if(j == 0 || j == 3 || j == 6){
-						tdIdx = parseInt(sudokuArr[i][j]) +thirdBox -1;
-					}else if(j == 1 || j == 4 || j == 7){ 
-						dTr = document.querySelectorAll("tr")[parseInt(sudokuArr[i][j]) +thirdBox -1]
-					}else{
-						dTr.children[tdIdx].innerText = sudokuArr[i][j];
-					}
-				break;
-			}
-		}
-	}
-}
+        case 5:
+          if (j == 0 || j == 3 || j == 6) {
+            tdIdx = parseInt(mockData[i][j]) + thirdBox - 1;
+          } else if (j == 1 || j == 4 || j == 7) {
+            dTr =
+              document.querySelectorAll("tr")[
+                parseInt(mockData[i][j]) + secondBox - 1
+              ];
+          } else {
+            dTr.children[tdIdx].innerText = mockData[i][j];
+          }
+          break;
 
+        case 6:
+          if (j == 0 || j == 3 || j == 6) {
+            tdIdx = parseInt(mockData[i][j]) - 1;
+          } else if (j == 1 || j == 4 || j == 7) {
+            dTr =
+              document.querySelectorAll("tr")[
+                parseInt(mockData[i][j]) + thirdBox - 1
+              ];
+          } else {
+            dTr.children[tdIdx].innerText = mockData[i][j];
+          }
+          break;
 
-//to get json file
+        case 7:
+          if (j == 0 || j == 3 || j == 6) {
+            tdIdx = parseInt(mockData[i][j]) + secondBox - 1;
+          } else if (j == 1 || j == 4 || j == 7) {
+            dTr =
+              document.querySelectorAll("tr")[
+                parseInt(mockData[i][j]) + thirdBox - 1
+              ];
+          } else {
+            dTr.children[tdIdx].innerText = mockData[i][j];
+          }
+          break;
+
+        case 8:
+          if (j == 0 || j == 3 || j == 6) {
+            tdIdx = parseInt(mockData[i][j]) + thirdBox - 1;
+          } else if (j == 1 || j == 4 || j == 7) {
+            dTr =
+              document.querySelectorAll("tr")[
+                parseInt(mockData[i][j]) + thirdBox - 1
+              ];
+          } else {
+            dTr.children[tdIdx].innerText = mockData[i][j];
+          }
+          break;
+      }
+    }
+  }
+};
+
+// //to get json file
 $.getJSON("/MOCK_DATA.json", (response) => {
-	$.each(response, (i, el) => {
-		let valString = el.val;
-		let val = valString.split("");
-		sudokuArr.push(val);
-	});
-	 tablePoper();
+  $.each(response, (i, el) => {
+    let valString = el.val;
+    let val = valString.split("");
+    mockData.push(val);
+  });
+  tablePoper();
+  getNumbers();
+  console.log(validateSudoku(sudokuBoard));
 });
 
-
+// const load = () => {
+//   let promise = new Promise((res, rej) => {
+//     //to get json file
+//     $.getJSON("/MOCK_DATA.json", (data, status, xhr) => {
+//       if (status == "success") {
+//         $.each(data, (i, el) => {
+//           let valString = el.val;
+//           let val = valString.split("");
+//           mockData.push(val);
+//         });
+// 	} else {
+// 		rej(status);
+// 	}
+// });
+// }).then(
+// 	  tablePoper(),
+// 	  getNumbers(),
+//     console.log(validateSudoku(sudokuBoard)) // return true or false
+//   );
+// };
+// load();
 
 // x : 0 , 3, 6
 // y : 1, 4, 7
