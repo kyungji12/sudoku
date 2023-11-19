@@ -16,11 +16,18 @@ tr:nth-child(3n + 1) {
 td {
   width: 50px;
   height: 50px;
+  line-height: 50px;
   text-align: center;
   border: 1px solid var(--color-black);
 }
 td:nth-child(3n + 1) {
   border-left: 2px solid var(--color-black);
+}
+td[data-disabled='true'] {
+  background-color: var(--color-grey-light);
+}
+td[data-selected='true']  {
+  outline: 1px solid red;
 }
 
 /* button area */
