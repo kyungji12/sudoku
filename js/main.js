@@ -63,136 +63,54 @@ const tablePoper = () => {
 
 // to set Default Data
 const setDefaultData = () => {
-  let dTr;
-  let tdIdx;
-  const secondBox = 3;
-  const thirdBox = 6;
+	let tdIdx;
+	let dTr;
 
-  for (let i = 0; i < mockData.length; i++) {
-    for (let j = 0; j < mockData[i].length; j++) {
-      switch (i) {
-        case 0:
-          if (j == 0 || j == 3 || j == 6) {
-            tdIdx = parseInt(mockData[i][j]) - 1;
-          } else if (j == 1 || j == 4 || j == 7) {
-            dTr = document.querySelectorAll("tr")[parseInt(mockData[i][j]) - 1];
-          } else {
-            dTr.children[tdIdx].innerText = mockData[i][j];
-          }
-          break;
+	for (let i = 0; i < mockData.length; i++) {
+		for (let j = 0; j < mockData[i].length; j++) {
 
-        case 1:
-          if (j == 0 || j == 3 || j == 6) {
-            tdIdx = parseInt(mockData[i][j]) + secondBox - 1;
-          } else if (j == 1 || j == 4 || j == 7) {
-            dTr = document.querySelectorAll("tr")[parseInt(mockData[i][j]) - 1];
-          } else {
-            dTr.children[tdIdx].innerText = mockData[i][j];
-          }
-          break;
-
-        case 2:
-          if (j == 0 || j == 3 || j == 6) {
-            tdIdx = parseInt(mockData[i][j]) + thirdBox - 1;
-          } else if (j == 1 || j == 4 || j == 7) {
-            dTr = document.querySelectorAll("tr")[parseInt(mockData[i][j]) - 1];
-          } else {
-            dTr.children[tdIdx].innerText = mockData[i][j];
-          }
-          break;
-
-        case 3:
-          if (j == 0 || j == 3 || j == 6) {
-            tdIdx = parseInt(mockData[i][j]) - 1;
-          } else if (j == 1 || j == 4 || j == 7) {
-            dTr =
-              document.querySelectorAll("tr")[
-                parseInt(mockData[i][j]) + secondBox - 1
-              ];
-          } else {
-            dTr.children[tdIdx].innerText = mockData[i][j];
-          }
-          break;
-
-        case 4:
-          if (j == 0 || j == 3 || j == 6) {
-            tdIdx = parseInt(mockData[i][j]) + secondBox - 1;
-          } else if (j == 1 || j == 4 || j == 7) {
-            dTr =
-              document.querySelectorAll("tr")[
-                parseInt(mockData[i][j]) + secondBox - 1
-              ];
-          } else {
-            dTr.children[tdIdx].innerText = mockData[i][j];
-          }
-          break;
-
-        case 5:
-          if (j == 0 || j == 3 || j == 6) {
-            tdIdx = parseInt(mockData[i][j]) + thirdBox - 1;
-          } else if (j == 1 || j == 4 || j == 7) {
-            dTr =
-              document.querySelectorAll("tr")[
-                parseInt(mockData[i][j]) + secondBox - 1
-              ];
-          } else {
-            dTr.children[tdIdx].innerText = mockData[i][j];
-          }
-          break;
-
-        case 6:
-          if (j == 0 || j == 3 || j == 6) {
-            tdIdx = parseInt(mockData[i][j]) - 1;
-          } else if (j == 1 || j == 4 || j == 7) {
-            dTr =
-              document.querySelectorAll("tr")[
-                parseInt(mockData[i][j]) + thirdBox - 1
-              ];
-          } else {
-            dTr.children[tdIdx].innerText = mockData[i][j];
-          }
-          break;
-
-        case 7:
-          if (j == 0 || j == 3 || j == 6) {
-            tdIdx = parseInt(mockData[i][j]) + secondBox - 1;
-          } else if (j == 1 || j == 4 || j == 7) {
-            dTr =
-              document.querySelectorAll("tr")[
-                parseInt(mockData[i][j]) + thirdBox - 1
-              ];
-          } else {
-            dTr.children[tdIdx].innerText = mockData[i][j];
-          }
-          break;
-
-        case 8:
-          if (j == 0 || j == 3 || j == 6) {
-            tdIdx = parseInt(mockData[i][j]) + thirdBox - 1;
-          } else if (j == 1 || j == 4 || j == 7) {
-            dTr =
-              document.querySelectorAll("tr")[
-                parseInt(mockData[i][j]) + thirdBox - 1
-              ];
-          } else {
-            dTr.children[tdIdx].innerText = mockData[i][j];
-          }
-          break;
-      }
-    }
-  }
+			if (Math.floor(j % 3) == 0) {
+				tdIdx = parseInt(mockData[i][j]) +getStartingPointRow(i) -1;
+			} else if (Math.floor(j % 3) == 1) {
+				dTr = document.querySelectorAll("tr")[parseInt(mockData[i][j]) +getStartingPointColumn(i) -1];
+				console.log(dTr);
+			} else {
+				dTr.children[tdIdx].innerText = mockData[i][j];
+			}
+		}
+	}
 };
+
+const getStartingPointRow = (i) =>{
+	if(Math.floor(i / 3) < 1){
+		return 0;
+	}else if(Math.floor(i / 3) < 2){
+		return 3;
+	}else{
+		return 6;
+	}
+}
+
+const getStartingPointColumn = (i) =>{
+	if(Math.floor(i % 3) == 0){
+		return 0;
+	}else if(Math.floor(i % 3) == 1){
+		return 3;
+	}else{
+		return 6;
+	}
+}
 
 // //to get json file
 $.getJSON("/MOCK_DATA.json", (response) => {
-  $.each(response, (i, el) => {
-    let valString = el.val;
-    let val = valString.split("");
-    mockData.push(val);
-  });
-  tablePoper();
-  getNumbers();
-  console.log(validateSudoku(sudokuBoard));
+	$.each(response, (i, el) => {
+		let valString = el.val;
+		let val = valString.split("");
+		mockData.push(val);
+	});
+	tablePoper();
+	getNumbers();
+	console.log(validateSudoku(sudokuBoard));
 });
 
 // const load = () => {
