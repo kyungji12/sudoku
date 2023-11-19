@@ -51,11 +51,11 @@ const validateSudoku = (sudokuBoard) => {
 // to generate table
 const tablePoper = () => {
   for (let x = 0; x < 9; ++x) {
-    let tr = document.createElement("tr");
-    for (let y = 0; y < 9; ++y) {
-      let td = document.createElement("td");
-      tr.append(td);
-    }
+	let tr = document.createElement("tr");
+	for (let y = 0; y < 9; ++y) {
+		let td = document.createElement("td");
+		tr.append(td);
+	}
     tbody.append(tr);
   }
   setDefaultData();
@@ -70,10 +70,9 @@ const setDefaultData = () => {
 		for (let j = 0; j < mockData[i].length; j++) {
 
 			if (Math.floor(j % 3) == 0) {
-				tdIdx = parseInt(mockData[i][j]) +getStartingPointRow(i) -1;
+				tdIdx = parseInt(mockData[i][j]) +getStartingPointColumn(i) -1;
 			} else if (Math.floor(j % 3) == 1) {
-				dTr = document.querySelectorAll("tr")[parseInt(mockData[i][j]) +getStartingPointColumn(i) -1];
-				console.log(dTr);
+				dTr = document.querySelectorAll("tr")[parseInt(mockData[i][j]) +getStartingPointRow(i) -1];
 			} else {
 				dTr.children[tdIdx].innerText = mockData[i][j];
 			}
@@ -81,7 +80,7 @@ const setDefaultData = () => {
 	}
 };
 
-const getStartingPointRow = (i) =>{
+const getStartingPointColumn = (i) =>{
 	if(Math.floor(i / 3) < 1){
 		return 0;
 	}else if(Math.floor(i / 3) < 2){
@@ -91,7 +90,7 @@ const getStartingPointRow = (i) =>{
 	}
 }
 
-const getStartingPointColumn = (i) =>{
+const getStartingPointRow = (i) =>{
 	if(Math.floor(i % 3) == 0){
 		return 0;
 	}else if(Math.floor(i % 3) == 1){
