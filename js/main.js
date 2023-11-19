@@ -61,6 +61,8 @@ const tablePoper = () => {
   setDefaultData();
 };
 
+
+
 // to set Default Data
 const setDefaultData = () => {
 	let tdIdx;
@@ -75,6 +77,7 @@ const setDefaultData = () => {
 				dTr = document.querySelectorAll("tr")[parseInt(mockData[i][j]) +getStartingPointRow(i) -1];
 			} else {
 				dTr.children[tdIdx].innerText = mockData[i][j];
+        dTr.children[tdIdx].setAttribute('data-disabled', true);    // add class 'disabled' to block click event
 			}
 		}
 	}
@@ -100,16 +103,62 @@ const getStartingPointRow = (i) =>{
 	}
 }
 
+
+// click event
+const clickEvent = ()=>{
+  let selected = null;
+  let tdAll = document.querySelectorAll('td');
+  let btns = document.querySelectorAll('button');
+
+  // click event for td
+  for(let td of tdAll){
+    if(!td.getAttribute('data-disabled')){
+      td.addEventListener('click', (e)=>{
+        selected !== null ? selected.setAttribute('data-selected', false) : '';
+        selected = e.target;
+        selected.setAttribute('data-selected', true);
+      });
+    }
+  }
+
+  // click event for button
+  for(let btn of btns){
+    btn.addEventListener('click', ()=>{
+      switch (btn.name) {
+        case 'deleteAll':
+          for(let td of tdAll){
+            if(!td.getAttribute('data-disabled')){
+              td.innerText = '';
+            }
+          }
+          break;
+        case 'correct':
+          
+          break;
+        case 'number':
+          if(selected === null){
+            alert('Please select a cell');
+          }
+          selected.innerText = btn.value;
+          break;
+      }
+    });
+  }
+}
+
+
+
 // //to get json file
 $.getJSON("/MOCK_DATA.json", (response) => {
-	$.each(response, (i, el) => {
-		let valString = el.val;
-		let val = valString.split("");
-		mockData.push(val);
-	});
-	tablePoper();
-	getNumbers();
-	console.log(validateSudoku(sudokuBoard));
+  $.each(response, (i, el) => {
+    let valString = el.val;
+    let val = valString.split("");
+    mockData.push(val);
+  });
+  tablePoper();
+  getNumbers();
+  clickEvent();
+  console.log(validateSudoku(sudokuBoard));
 });
 
 // const load = () => {
