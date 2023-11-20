@@ -1,10 +1,11 @@
 const tbody = document.querySelector("tbody");
 const rows = tbody.rows;
 const mockData = [];
-const sudokuBoard = [];
+let sudokuBoard = [];
 
 // Get all number of rows, columns, boxs from a table
 const getNumbers = () => {
+  sudokuBoard = [];
   for (let i = 0; i < rows.length; i++) {
     let numList = [];
     for (let j = 0; j < rows[i].children.length; j++) {
@@ -30,123 +31,134 @@ const validateSudoku = (sudokuBoard) => {
         sudokuBoard[3 * Math.floor(i / 3) + Math.floor(j / 3)][
           3 * (i % 3) + (j % 3)
         ];
-
+      // 1 : Lose 2 : Empty Number 3: Win
       if (rowNum != "") {
-        if (rowSet.has(rowNum)) return false;
+        if (rowSet.has(rowNum)) return 1;
         rowSet.add(rowNum);
+      } else {
+        return 2;
       }
       if (colNum != "") {
-        if (colSet.has(colNum)) return false;
+        if (colSet.has(colNum)) return 1;
         colSet.add(colNum);
+      } else {
+        return 2;
       }
       if (boxNum != "") {
-        if (boxSet.has(boxNum)) return false;
+        if (boxSet.has(boxNum)) return 1;
         boxSet.add(boxNum);
+      } else {
+        return 2;
       }
     }
   }
-  return true;
+  return 3;
 };
 
 // to generate table
 const tablePoper = () => {
   for (let x = 0; x < 9; ++x) {
-	let tr = document.createElement("tr");
-	for (let y = 0; y < 9; ++y) {
-		let td = document.createElement("td");
-		tr.append(td);
-	}
+    let tr = document.createElement("tr");
+    for (let y = 0; y < 9; ++y) {
+      let td = document.createElement("td");
+      tr.append(td);
+    }
     tbody.append(tr);
   }
   setDefaultData();
 };
 
-
-
 // to set Default Data
 const setDefaultData = () => {
-	let tdIdx;
-	let dTr;
+  let tdIdx;
+  let dTr;
 
-	for (let i = 0; i < mockData.length; i++) {
-		for (let j = 0; j < mockData[i].length; j++) {
-
-			if (Math.floor(j % 3) == 0) {
-				tdIdx = parseInt(mockData[i][j]) +getStartingPointColumn(i) -1;
-			} else if (Math.floor(j % 3) == 1) {
-				dTr = document.querySelectorAll("tr")[parseInt(mockData[i][j]) +getStartingPointRow(i) -1];
-			} else {
-				dTr.children[tdIdx].innerText = mockData[i][j];
-        dTr.children[tdIdx].setAttribute('data-disabled', true);    // add class 'disabled' to block click event
-			}
-		}
-	}
+  for (let i = 0; i < mockData.length; i++) {
+    for (let j = 0; j < mockData[i].length; j++) {
+      if (Math.floor(j % 3) == 0) {
+        tdIdx = parseInt(mockData[i][j]) + getStartingPointColumn(i) - 1;
+      } else if (Math.floor(j % 3) == 1) {
+        dTr =
+          document.querySelectorAll("tr")[
+            parseInt(mockData[i][j]) + getStartingPointRow(i) - 1
+          ];
+      } else {
+        dTr.children[tdIdx].innerText = mockData[i][j];
+        dTr.children[tdIdx].setAttribute("data-disabled", true); // add class 'disabled' to block click event
+      }
+    }
+  }
 };
 
-const getStartingPointColumn = (i) =>{
-	if(Math.floor(i / 3) < 1){
-		return 0;
-	}else if(Math.floor(i / 3) < 2){
-		return 3;
-	}else{
-		return 6;
-	}
-}
+const getStartingPointColumn = (i) => {
+  if (Math.floor(i / 3) < 1) {
+    return 0;
+  } else if (Math.floor(i / 3) < 2) {
+    return 3;
+  } else {
+    return 6;
+  }
+};
 
-const getStartingPointRow = (i) =>{
-	if(Math.floor(i % 3) == 0){
-		return 0;
-	}else if(Math.floor(i % 3) == 1){
-		return 3;
-	}else{
-		return 6;
-	}
-}
-
+const getStartingPointRow = (i) => {
+  if (Math.floor(i % 3) == 0) {
+    return 0;
+  } else if (Math.floor(i % 3) == 1) {
+    return 3;
+  } else {
+    return 6;
+  }
+};
 
 // click event
-const clickEvent = ()=>{
+const clickEvent = () => {
   let selected = null;
-  let tdAll = document.querySelectorAll('td');
-  let btns = document.querySelectorAll('button');
+  let tdAll = document.querySelectorAll("td");
+  let btns = document.querySelectorAll("button");
 
   // click event for td
-  for(let td of tdAll){
-    if(!td.getAttribute('data-disabled')){
-      td.addEventListener('click', (e)=>{
-        selected !== null ? selected.setAttribute('data-selected', false) : '';
+  for (let td of tdAll) {
+    if (!td.getAttribute("data-disabled")) {
+      td.addEventListener("click", (e) => {
+        selected !== null ? selected.setAttribute("data-selected", false) : "";
         selected = e.target;
-        selected.setAttribute('data-selected', true);
+        selected.setAttribute("data-selected", true);
       });
     }
   }
 
   // click event for button
-  for(let btn of btns){
-    btn.addEventListener('click', ()=>{
+  for (let btn of btns) {
+    btn.addEventListener("click", () => {
       switch (btn.name) {
-        case 'deleteAll':
-          for(let td of tdAll){
-            if(!td.getAttribute('data-disabled')){
-              td.innerText = '';
+        case "deleteAll":
+          for (let td of tdAll) {
+            if (!td.getAttribute("data-disabled")) {
+              td.innerText = "";
+              getNumbers();
             }
           }
           break;
-        case 'correct':
-          
+        case "check":
+          if (validateSudoku(sudokuBoard) == 3) {
+            alert("YOU WIN :D !");
+          } else if (validateSudoku(sudokuBoard) == 2) {
+            alert("PLEASE FILL IN ALL NUMBERS");
+          } else {
+            alert("YOU LOSE :( !");
+          }
           break;
-        case 'number':
-          if(selected === null){
-            alert('Please select a cell');
+        case "number":
+          if (selected === null) {
+            alert("Please select a cell");
           }
           selected.innerText = btn.value;
+          getNumbers();
           break;
       }
     });
   }
-}
-
-
+};
 
 // //to get json file
 $.getJSON("/MOCK_DATA.json", (response) => {
@@ -158,7 +170,6 @@ $.getJSON("/MOCK_DATA.json", (response) => {
   tablePoper();
   getNumbers();
   clickEvent();
-  console.log(validateSudoku(sudokuBoard));
 });
 
 // const load = () => {
