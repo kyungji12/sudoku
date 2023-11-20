@@ -17,18 +17,6 @@
   --color-blue: #b5e8ff;
   --color-blue-light: #e7f3fe;
   --color-lime: #bcffb5;
-
-  /* Size */
-  --spacing: 12px;
-  --spacing-small: 6px;
-  --avatar-size: 36px;
-
-  /* Font Size */
-  --font-large: 20px;
-  --font-regular: 16px;
-  --font-medium: 14px;
-  --font-small: 12px;
-  --font-micro: 10px;
 }
 body {
   line-height: 1;
@@ -38,25 +26,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-}
-ol,
-ul {
-  list-style: none;
-}
-blockquote,
-q {
-  quotes: none;
-}
-blockquote:before,
-blockquote:after,
-q:before,
-q:after {
-  content: "";
-  content: none;
+  text-align: center;
 }
 table {
   border-collapse: collapse;

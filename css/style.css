@@ -1,5 +1,15 @@
 /* sudoku container */
+h1 {
+  color: var(--color-grey-dark);
+  margin-bottom: 5px;
+}
+p {
+  color: var(--color-grey-dark);
+  margin-bottom: 25px;
+  font-weight: bold;
+}
 .container {
+  height: 100vh;
   background-color: var(--color-pink-light);
   padding: 30px;
 }
@@ -7,8 +17,6 @@ table {
   border: 2px solid var(--color-black);
   margin: auto;
   background-color: var(--color-white);
-}
-tr {
 }
 tr:nth-child(3n + 1) {
   border-top: 2px solid var(--color-black);
@@ -23,11 +31,13 @@ td {
 td:nth-child(3n + 1) {
   border-left: 2px solid var(--color-black);
 }
-td[data-disabled='true'] {
+td[data-disabled="true"] {
   background-color: var(--color-grey-light);
 }
-td[data-selected='true']  {
-  outline: 1px solid red;
+td[data-selected="true"] {
+  outline: 3px solid var(--color-pink);
+  outline-offset: -1px;
+  border-radius: 3px;
 }
 
 /* button area */
@@ -39,4 +49,10 @@ td[data-selected='true']  {
   width: 47px;
   height: 47px;
   border-radius: 5px;
+}
+button[name="deleteAll"],
+button[name="check"] {
+  width: 70px;
+  padding: 0 5px;
+  background-color: var(--color-white);
 }
