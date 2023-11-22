@@ -172,28 +172,6 @@ $.getJSON("/MOCK_DATA.json", (response) => {
   clickEvent();
 });
 
-// const load = () => {
-//   let promise = new Promise((res, rej) => {
-//     //to get json file
-//     $.getJSON("/MOCK_DATA.json", (data, status, xhr) => {
-//       if (status == "success") {
-//         $.each(data, (i, el) => {
-//           let valString = el.val;
-//           let val = valString.split("");
-//           mockData.push(val);
-//         });
-// 	} else {
-// 		rej(status);
-// 	}
-// });
-// }).then(
-// 	  tablePoper(),
-// 	  getNumbers(),
-//     console.log(validateSudoku(sudokuBoard)) // return true or false
-//   );
-// };
-// load();
-
 // x : 0 , 3, 6
 // y : 1, 4, 7
 // vlaue : 3, 5, 8
