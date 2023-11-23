@@ -101,7 +101,7 @@ const getStartingPointColumn = (i) => {
   }
 };
 
-// 0: first block from top, 3: second block from top, 6:third block from top
+// 0: first block from top, 3: second block from top, 6:third block from top 
 const getStartingPointRow = (i) => {
   if (Math.floor(i % 3) == 0) {
     return 0;
