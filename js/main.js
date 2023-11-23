@@ -73,16 +73,16 @@ const setDefaultData = () => {
   let tdIdx;
   let dTr;
 
-  for (let i = 0; i < mockData.length; i++) {
-    for (let j = 0; j < mockData[i].length; j++) {
-      if (Math.floor(j % 3) == 0) {
+  for (let i = 0; i < mockData.length; i++) { //i indicates which block
+    for (let j = 0; j < mockData[i].length; j++) { 
+      if (Math.floor(j % 3) == 0) { //j is a mulchple of 3 indicates how many cells are form the left on the X
         tdIdx = parseInt(mockData[i][j]) + getStartingPointColumn(i) - 1;
-      } else if (Math.floor(j % 3) == 1) {
+      } else if (Math.floor(j % 3) == 1) { //j is divided by 3 and has 1 remainder indicates how many cells are form the left on the x
         dTr =
           document.querySelectorAll("tr")[
             parseInt(mockData[i][j]) + getStartingPointRow(i) - 1
           ];
-      } else {
+      } else {  //value
         dTr.children[tdIdx].innerText = mockData[i][j];
         dTr.children[tdIdx].setAttribute("data-disabled", true); // add class 'disabled' to block click event
       }
@@ -91,6 +91,7 @@ const setDefaultData = () => {
 };
 
 const getStartingPointColumn = (i) => {
+  // 0: first block from left, 3: second block from left, 6:third block from left
   if (Math.floor(i / 3) < 1) {
     return 0;
   } else if (Math.floor(i / 3) < 2) {
@@ -100,6 +101,7 @@ const getStartingPointColumn = (i) => {
   }
 };
 
+// 0: first block from top, 3: second block from top, 6:third block from top
 const getStartingPointRow = (i) => {
   if (Math.floor(i % 3) == 0) {
     return 0;
